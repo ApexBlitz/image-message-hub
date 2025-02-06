@@ -2,11 +2,16 @@ import { useState } from "react";
 import ImageUpload from "../components/ImageUpload";
 import MessageInput from "../components/MessageInput";
 import Preview from "../components/Preview";
+import ModelSelect from "../components/ModelSelect";
 import { useToast } from "../components/ui/use-toast";
+import { generateResponse } from "../services/ollamaService";
+import { Button } from "../components/ui/button";
 
 const Index = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const [selectedModel, setSelectedModel] = useState<string>("");
+  const [generatedText, setGeneratedText] = useState("");
   const { toast } = useToast();
 
   const handleImageSelect = (file: File) => {
@@ -27,6 +32,32 @@ const Index = () => {
     });
   };
 
+  const handleGenerate = async () => {
+    if (!selectedModel) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez sélectionner un modèle",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const response = await generateResponse(selectedModel, message);
+      setGeneratedText(response);
+      toast({
+        title: "Succès",
+        description: "Texte généré avec succès",
+      });
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la génération du texte",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container py-8 space-y-8">
@@ -36,8 +67,16 @@ const Index = () => {
         
         <div className="max-w-2xl mx-auto space-y-8">
           <ImageUpload onImageSelect={handleImageSelect} />
+          <ModelSelect onModelSelect={setSelectedModel} />
           <MessageInput onMessageChange={setMessage} />
-          <Preview imageUrl={imageUrl} message={message} />
+          <Button 
+            onClick={handleGenerate}
+            className="w-full"
+            disabled={!selectedModel || !message}
+          >
+            Générer avec IA
+          </Button>
+          <Preview imageUrl={imageUrl} message={message} generatedText={generatedText} />
         </div>
       </div>
     </div>
