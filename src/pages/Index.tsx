@@ -1,12 +1,11 @@
 import { useState } from "react";
-import ImageUpload from "../components/ImageUpload";
-import MessageInput from "../components/MessageInput";
-import Preview from "../components/Preview";
-import ModelSelect from "../components/ModelSelect";
 import { useToast } from "../components/ui/use-toast";
 import { generateResponse } from "../services/ollamaService";
-import { Button } from "../components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import AppTab from "../components/tabs/AppTab";
+import AboutTab from "../components/tabs/AboutTab";
+import HelpTab from "../components/tabs/HelpTab";
+import LegalTab from "../components/tabs/LegalTab";
 
 const Index = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -74,103 +73,29 @@ const Index = () => {
             <TabsTrigger value="legal">Légal</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="app" className="space-y-8">
-            <div className="max-w-2xl mx-auto space-y-8">
-              <ImageUpload onImageSelect={handleImageSelect} />
-              <ModelSelect onModelSelect={setSelectedModel} />
-              <MessageInput onMessageChange={setMessage} />
-              <Button 
-                onClick={handleGenerate}
-                className="w-full"
-                disabled={!selectedModel || !message}
-              >
-                Générer avec IA
-              </Button>
-              <Preview imageUrl={imageUrl} message={message} generatedText={generatedText} />
-            </div>
+          <TabsContent value="app">
+            <AppTab 
+              onImageSelect={handleImageSelect}
+              onModelSelect={setSelectedModel}
+              onMessageChange={setMessage}
+              onGenerate={handleGenerate}
+              selectedModel={selectedModel}
+              message={message}
+              imageUrl={imageUrl}
+              generatedText={generatedText}
+            />
           </TabsContent>
 
-          <TabsContent value="about" className="space-y-4 text-left max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold">À propos du projet</h2>
-            <p>
-              Image Message Hub est une application web innovante qui combine le partage d'images
-              avec la génération de texte assistée par intelligence artificielle.
-            </p>
-            <h3 className="text-xl font-semibold mt-4">Fonctionnalités principales</h3>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Téléchargement d'images jusqu'à 5Mo</li>
-              <li>Sélection de modèles d'IA via Ollama</li>
-              <li>Génération de texte personnalisée</li>
-              <li>Interface utilisateur intuitive</li>
-            </ul>
+          <TabsContent value="about">
+            <AboutTab />
           </TabsContent>
 
-          <TabsContent value="help" className="space-y-4 text-left max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold">Comment utiliser l'application</h2>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-xl font-semibold">1. Téléchargement d'image</h3>
-                <p>Cliquez sur la zone de téléchargement ou glissez-déposez votre image.</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold">2. Sélection du modèle</h3>
-                <p>Choisissez un modèle d'IA dans la liste déroulante des modèles disponibles.</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold">3. Message</h3>
-                <p>Écrivez votre message dans le champ de texte prévu à cet effet.</p>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold">4. Génération</h3>
-                <p>Cliquez sur "Générer avec IA" pour obtenir une réponse générée par l'IA.</p>
-              </div>
-            </div>
+          <TabsContent value="help">
+            <HelpTab />
           </TabsContent>
 
-          <TabsContent value="legal" className="space-y-6 text-left max-w-2xl mx-auto">
-            <h2 className="text-2xl font-bold">Mentions Légales</h2>
-            
-            <div className="space-y-4">
-              <section>
-                <h3 className="text-xl font-semibold">Propriété Intellectuelle</h3>
-                <p className="mt-2">
-                  Tous les droits de propriété intellectuelle relatifs à cette application, y compris les droits d'auteur,
-                  sont réservés. Toute reproduction ou utilisation non autorisée est strictement interdite.
-                </p>
-              </section>
-
-              <section>
-                <h3 className="text-xl font-semibold">Protection des Données</h3>
-                <p className="mt-2">
-                  Conformément au RGPD, nous nous engageons à protéger vos données personnelles.
-                  Les images téléchargées sont temporairement stockées et automatiquement supprimées après utilisation.
-                </p>
-              </section>
-
-              <section>
-                <h3 className="text-xl font-semibold">Utilisation de l'IA</h3>
-                <p className="mt-2">
-                  Cette application utilise Ollama pour la génération de texte. Les modèles d'IA sont
-                  hébergés localement sur votre machine. Nous ne sommes pas responsables des contenus générés.
-                </p>
-              </section>
-
-              <section>
-                <h3 className="text-xl font-semibold">Cookies</h3>
-                <p className="mt-2">
-                  Cette application utilise des cookies techniques essentiels au fonctionnement du service.
-                  Aucun cookie publicitaire ou de traçage n'est utilisé.
-                </p>
-              </section>
-
-              <section>
-                <h3 className="text-xl font-semibold">Contact</h3>
-                <p className="mt-2">
-                  Pour toute question concernant vos droits ou l'utilisation de vos données,
-                  vous pouvez nous contacter à l'adresse : contact@imagemessagehub.com
-                </p>
-              </section>
-            </div>
+          <TabsContent value="legal">
+            <LegalTab />
           </TabsContent>
         </Tabs>
       </div>
