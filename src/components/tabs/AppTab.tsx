@@ -44,7 +44,7 @@ const AppTab = ({
         className="w-full"
         disabled={!selectedModel || !message}
       >
-        Générer avec IA
+        Réponse de l'IA
       </Button>
       <Preview imageUrl={imageUrl} message={message} generatedText={generatedText} />
       
