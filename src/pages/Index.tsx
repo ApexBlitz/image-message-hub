@@ -55,7 +55,6 @@ const Index = () => {
       const response = await generateResponse(selectedModel, message);
       setGeneratedText(response);
       
-      // Ajouter la nouvelle entrée à l'historique
       const newEntry: HistoryEntry = {
         message,
         response,
@@ -77,8 +76,8 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container py-8 space-y-8">
+    <div className="flex flex-col min-h-screen bg-background">
+      <div className="container flex-grow py-8 space-y-8">
         <h1 className="text-4xl font-bold text-center text-gray-900">
           Image Message Hub
         </h1>
@@ -122,9 +121,8 @@ const Index = () => {
             <AIResponseTab generatedText={generatedText} history={history} />
           </TabsContent>
         </Tabs>
-
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 };
