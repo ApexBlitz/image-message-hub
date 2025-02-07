@@ -8,11 +8,18 @@ import HelpTab from "../components/tabs/HelpTab";
 import LegalTab from "../components/tabs/LegalTab";
 import AIResponseTab from "../components/tabs/AIResponseTab";
 
+interface HistoryEntry {
+  message: string;
+  response: string;
+  timestamp: Date;
+}
+
 const Index = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [generatedText, setGeneratedText] = useState("");
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
   const { toast } = useToast();
 
   const handleImageSelect = (file: File) => {
@@ -46,6 +53,15 @@ const Index = () => {
     try {
       const response = await generateResponse(selectedModel, message);
       setGeneratedText(response);
+      
+      // Ajouter la nouvelle entrée à l'historique
+      const newEntry: HistoryEntry = {
+        message,
+        response,
+        timestamp: new Date(),
+      };
+      setHistory(prev => [newEntry, ...prev]);
+      
       toast({
         title: "Succès",
         description: "Texte généré avec succès",
@@ -85,6 +101,7 @@ const Index = () => {
               message={message}
               imageUrl={imageUrl}
               generatedText={generatedText}
+              history={history}
             />
           </TabsContent>
 
@@ -101,7 +118,7 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="ai-response">
-            <AIResponseTab generatedText={generatedText} />
+            <AIResponseTab generatedText={generatedText} history={history} />
           </TabsContent>
         </Tabs>
       </div>

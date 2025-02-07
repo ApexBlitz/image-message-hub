@@ -3,6 +3,13 @@ import MessageInput from "../MessageInput";
 import Preview from "../Preview";
 import ModelSelect from "../ModelSelect";
 import { Button } from "../ui/button";
+import { ScrollArea } from "../ui/scroll-area";
+
+interface HistoryEntry {
+  message: string;
+  response: string;
+  timestamp: Date;
+}
 
 interface AppTabProps {
   onImageSelect: (file: File) => void;
@@ -13,6 +20,7 @@ interface AppTabProps {
   message: string;
   imageUrl: string | null;
   generatedText: string;
+  history: HistoryEntry[];
 }
 
 const AppTab = ({
@@ -24,6 +32,7 @@ const AppTab = ({
   message,
   imageUrl,
   generatedText,
+  history,
 }: AppTabProps) => {
   return (
     <div className="max-w-2xl mx-auto space-y-8">
@@ -38,6 +47,29 @@ const AppTab = ({
         Générer avec IA
       </Button>
       <Preview imageUrl={imageUrl} message={message} generatedText={generatedText} />
+      
+      {history.length > 0 && (
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">Historique des réponses</h3>
+          <ScrollArea className="h-[300px] rounded-md border p-4">
+            {history.map((entry, index) => (
+              <div key={index} className="mb-6 p-4 bg-gray-50 rounded-lg">
+                <div className="text-sm text-gray-500 mb-2">
+                  {entry.timestamp.toLocaleString()}
+                </div>
+                <div className="mb-2">
+                  <strong>Message :</strong>
+                  <p className="text-gray-700">{entry.message}</p>
+                </div>
+                <div>
+                  <strong>Réponse :</strong>
+                  <p className="text-gray-700">{entry.response}</p>
+                </div>
+              </div>
+            ))}
+          </ScrollArea>
+        </div>
+      )}
     </div>
   );
 };
