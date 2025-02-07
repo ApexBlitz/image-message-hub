@@ -7,6 +7,7 @@ import AboutTab from "../components/tabs/AboutTab";
 import HelpTab from "../components/tabs/HelpTab";
 import LegalTab from "../components/tabs/LegalTab";
 import AIResponseTab from "../components/tabs/AIResponseTab";
+import Footer from "../components/Footer";
 
 interface HistoryEntry {
   message: string;
@@ -121,6 +122,8 @@ const Index = () => {
             <AIResponseTab generatedText={generatedText} history={history} />
           </TabsContent>
         </Tabs>
+
+        <Footer />
       </div>
     </div>
   );
