@@ -6,6 +6,7 @@ import AppTab from "../components/tabs/AppTab";
 import AboutTab from "../components/tabs/AboutTab";
 import HelpTab from "../components/tabs/HelpTab";
 import LegalTab from "../components/tabs/LegalTab";
+import AIResponseTab from "../components/tabs/AIResponseTab";
 
 const Index = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -66,11 +67,12 @@ const Index = () => {
         </h1>
 
         <Tabs defaultValue="app" className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="app">Application</TabsTrigger>
             <TabsTrigger value="about">À propos</TabsTrigger>
             <TabsTrigger value="help">Aide</TabsTrigger>
             <TabsTrigger value="legal">Légal</TabsTrigger>
+            <TabsTrigger value="ai-response">Réponse IA</TabsTrigger>
           </TabsList>
 
           <TabsContent value="app">
@@ -96,6 +98,10 @@ const Index = () => {
 
           <TabsContent value="legal">
             <LegalTab />
+          </TabsContent>
+
+          <TabsContent value="ai-response">
+            <AIResponseTab generatedText={generatedText} />
           </TabsContent>
         </Tabs>
       </div>
