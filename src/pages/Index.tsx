@@ -24,12 +24,17 @@ interface HistoryEntry {
 }
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState("app");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [generatedText, setGeneratedText] = useState("");
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const { toast } = useToast();
+
+  const handleHomeClick = () => {
+    setActiveTab("app");
+  };
 
   const handleImageSelect = (file: File) => {
     if (file.size > 5 * 1024 * 1024) {
@@ -96,7 +101,7 @@ const Index = () => {
     <div className="flex flex-col min-h-screen bg-background">
       <div className="container flex-grow py-8 space-y-8">
         <div className="flex items-center justify-between">
-          <Button variant="outline" size="icon" className="rounded-full">
+          <Button variant="outline" size="icon" className="rounded-full" onClick={handleHomeClick}>
             <Home className="h-5 w-5" />
           </Button>
           <h1 className="text-4xl font-bold text-center text-gray-900 flex-grow">
@@ -104,7 +109,7 @@ const Index = () => {
           </h1>
         </div>
 
-        <Tabs defaultValue="app" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="app">Application</TabsTrigger>
             <TabsTrigger value="about">À propos</TabsTrigger>
