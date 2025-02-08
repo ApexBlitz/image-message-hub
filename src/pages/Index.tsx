@@ -11,6 +11,8 @@ import HelpTab from "../components/tabs/HelpTab";
 import LegalTab from "../components/tabs/LegalTab";
 import AIResponseTab from "../components/tabs/AIResponseTab";
 import Footer from "../components/Footer";
+import LanguageSelect from "../components/LanguageSelect";
+import { useTranslation } from "../hooks/useTranslation";
 
 interface HistoryEntry {
   message: string;
@@ -24,6 +26,7 @@ interface HistoryEntry {
 }
 
 const Index = () => {
+  const { t, currentLanguage, setCurrentLanguage } = useTranslation();
   const [activeTab, setActiveTab] = useState("app");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [message, setMessage] = useState("");
@@ -39,8 +42,8 @@ const Index = () => {
   const handleImageSelect = (file: File) => {
     if (file.size > 5 * 1024 * 1024) {
       toast({
-        title: "Erreur",
-        description: "L'image ne doit pas dépasser 5Mo",
+        title: t("error"),
+        description: t("imageTooLarge"),
         variant: "destructive",
       });
       return;
@@ -49,16 +52,16 @@ const Index = () => {
     const url = URL.createObjectURL(file);
     setImageUrl(url);
     toast({
-      title: "Succès",
-      description: "Image téléchargée avec succès",
+      title: t("success"),
+      description: t("imageUploaded"),
     });
   };
 
   const handleGenerate = async () => {
     if (!selectedModel) {
       toast({
-        title: "Erreur",
-        description: "Veuillez sélectionner un modèle",
+        title: t("error"),
+        description: t("selectModelFirst"),
         variant: "destructive",
       });
       return;
@@ -85,13 +88,13 @@ const Index = () => {
       setHistory(prev => [newEntry, ...prev]);
       
       toast({
-        title: "Succès",
-        description: "Texte généré avec succès",
+        title: t("success"),
+        description: t("textGenerated"),
       });
     } catch (error) {
       toast({
-        title: "Erreur",
-        description: "Erreur lors de la génération du texte",
+        title: t("error"),
+        description: t("generationError"),
         variant: "destructive",
       });
     }
@@ -101,21 +104,24 @@ const Index = () => {
     <div className="flex flex-col min-h-screen bg-background">
       <div className="container flex-grow py-8 space-y-8">
         <div className="flex items-center justify-between">
-          <Button variant="outline" size="icon" className="rounded-full" onClick={handleHomeClick}>
-            <Home className="h-5 w-5" />
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" className="rounded-full" onClick={handleHomeClick}>
+              <Home className="h-5 w-5" />
+            </Button>
+            <LanguageSelect value={currentLanguage} onValueChange={setCurrentLanguage} />
+          </div>
           <h1 className="text-4xl font-bold text-center text-gray-900 flex-grow">
-            Image Message Hub
+            {t("title")}
           </h1>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="app">Application</TabsTrigger>
-            <TabsTrigger value="about">À propos</TabsTrigger>
-            <TabsTrigger value="help">Aide</TabsTrigger>
-            <TabsTrigger value="legal">Légal</TabsTrigger>
-            <TabsTrigger value="ai-response">Réponse IA</TabsTrigger>
+            <TabsTrigger value="app">{t("app")}</TabsTrigger>
+            <TabsTrigger value="about">{t("about")}</TabsTrigger>
+            <TabsTrigger value="help">{t("help")}</TabsTrigger>
+            <TabsTrigger value="legal">{t("legal")}</TabsTrigger>
+            <TabsTrigger value="ai-response">{t("aiResponse")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="app">
@@ -155,4 +161,3 @@ const Index = () => {
 };
 
 export default Index;
-
