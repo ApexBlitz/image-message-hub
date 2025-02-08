@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "../components/ui/use-toast";
 import { generateResponse } from "../services/ollamaService";
@@ -13,6 +14,11 @@ interface HistoryEntry {
   message: string;
   response: string;
   timestamp: Date;
+  stats: {
+    duration: number;
+    tokensUsed: number;
+    modelName: string;
+  };
 }
 
 const Index = () => {
@@ -51,15 +57,24 @@ const Index = () => {
       return;
     }
 
+    const startTime = Date.now();
+
     try {
       const response = await generateResponse(selectedModel, message);
-      setGeneratedText(response);
+      const duration = Date.now() - startTime;
       
       const newEntry: HistoryEntry = {
         message,
-        response,
+        response: response.text,
         timestamp: new Date(),
+        stats: {
+          duration: duration,
+          tokensUsed: response.stats.tokensUsed || 0,
+          modelName: selectedModel,
+        }
       };
+      
+      setGeneratedText(response.text);
       setHistory(prev => [newEntry, ...prev]);
       
       toast({
