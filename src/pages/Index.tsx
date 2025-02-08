@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useToast } from "../components/ui/use-toast";
 import { generateResponse } from "../services/ollamaService";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { Button } from "../components/ui/button";
+import { Home } from "lucide-react";
 import AppTab from "../components/tabs/AppTab";
 import AboutTab from "../components/tabs/AboutTab";
 import HelpTab from "../components/tabs/HelpTab";
@@ -93,9 +95,14 @@ const Index = () => {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <div className="container flex-grow py-8 space-y-8">
-        <h1 className="text-4xl font-bold text-center text-gray-900">
-          Image Message Hub
-        </h1>
+        <div className="flex items-center justify-between">
+          <Button variant="outline" size="icon" className="rounded-full">
+            <Home className="h-5 w-5" />
+          </Button>
+          <h1 className="text-4xl font-bold text-center text-gray-900 flex-grow">
+            Image Message Hub
+          </h1>
+        </div>
 
         <Tabs defaultValue="app" className="w-full">
           <TabsList className="grid w-full grid-cols-5">
@@ -143,3 +150,4 @@ const Index = () => {
 };
 
 export default Index;
+
