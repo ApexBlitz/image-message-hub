@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Upload } from "lucide-react";
 
@@ -20,16 +21,27 @@ const ImageUpload = ({ onImageSelect }: { onImageSelect: (file: File) => void })
     setDragActive(false);
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      onImageSelect(e.dataTransfer.files[0]);
+      const file = e.dataTransfer.files[0];
+      if (file.type.startsWith('image/')) {
+        onImageSelect(file);
+      }
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      onImageSelect(e.target.files[0]);
+      const file = e.target.files[0];
+      if (file.type.startsWith('image/')) {
+        onImageSelect(file);
+      }
     }
   };
+
+  const acceptedFormats = [
+    'image/jpeg', 'image/png', 'image/gif', 'image/webp', 
+    'image/svg+xml', 'image/bmp', 'image/tiff'
+  ].join(',');
 
   return (
     <div
@@ -43,15 +55,23 @@ const ImageUpload = ({ onImageSelect }: { onImageSelect: (file: File) => void })
     >
       <input
         type="file"
-        accept="image/*"
+        accept={acceptedFormats}
         onChange={handleChange}
         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
       />
       <div className="flex flex-col items-center justify-center h-full space-y-4">
         <Upload className="w-12 h-12 text-gray-400" />
-        <p className="text-sm text-gray-600">
-          Glissez une image ou cliquez pour sélectionner
-        </p>
+        <div className="text-center space-y-2">
+          <p className="text-sm text-gray-600">
+            Glissez une image ou cliquez pour sélectionner
+          </p>
+          <p className="text-xs text-gray-500">
+            Formats acceptés : JPG, PNG, GIF, WebP, SVG, BMP, TIFF
+          </p>
+          <p className="text-xs text-gray-500">
+            Taille maximale : 5 Mo
+          </p>
+        </div>
       </div>
     </div>
   );
