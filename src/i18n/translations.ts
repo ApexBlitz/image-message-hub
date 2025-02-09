@@ -17,7 +17,9 @@ export const translations = {
     imageTooLarge: "L'image ne doit pas dépasser 5Mo",
     selectModelFirst: "Veuillez sélectionner un modèle",
     textGenerated: "Texte généré avec succès",
-    generationError: "Erreur lors de la génération du texte"
+    generationError: "Erreur lors de la génération du texte",
+    lightMode: "Mode clair",
+    darkMode: "Mode sombre"
   },
   en: {
     app: "Application",
@@ -36,7 +38,9 @@ export const translations = {
     imageTooLarge: "Image must not exceed 5MB",
     selectModelFirst: "Please select a model",
     textGenerated: "Text generated successfully",
-    generationError: "Error while generating text"
+    generationError: "Error while generating text",
+    lightMode: "Light mode",
+    darkMode: "Dark mode"
   }
 };
 
