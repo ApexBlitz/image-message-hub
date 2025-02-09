@@ -12,6 +12,7 @@ import LegalTab from "../components/tabs/LegalTab";
 import AIResponseTab from "../components/tabs/AIResponseTab";
 import Footer from "../components/Footer";
 import LanguageSelect from "../components/LanguageSelect";
+import ThemeToggle from "../components/ThemeToggle";
 import { useTranslation } from "../hooks/useTranslation";
 
 interface HistoryEntry {
@@ -109,8 +110,9 @@ const Index = () => {
               <Home className="h-5 w-5" />
             </Button>
             <LanguageSelect value={currentLanguage} onValueChange={setCurrentLanguage} />
+            <ThemeToggle />
           </div>
-          <h1 className="text-4xl font-bold text-center text-gray-900 flex-grow">
+          <h1 className="text-4xl font-bold text-center text-foreground flex-grow">
             {t("title")}
           </h1>
         </div>
