@@ -106,24 +106,24 @@ const Index = () => {
       <div className="container flex-grow py-8 space-y-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="icon" className="rounded-full" onClick={handleHomeClick}>
+            <Button variant="outline" size="icon" className="rounded-full hover:scale-105 transition-transform" onClick={handleHomeClick}>
               <Home className="h-5 w-5" />
             </Button>
             <LanguageSelect value={currentLanguage} onValueChange={setCurrentLanguage} />
             <ThemeToggle />
           </div>
-          <h1 className="text-4xl font-bold text-center text-foreground flex-grow">
+          <h1 className="text-5xl title-gradient animate-fade-in py-2 flex-grow">
             {t("title")}
           </h1>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="app">{t("app")}</TabsTrigger>
-            <TabsTrigger value="about">{t("about")}</TabsTrigger>
-            <TabsTrigger value="help">{t("help")}</TabsTrigger>
-            <TabsTrigger value="legal">{t("legal")}</TabsTrigger>
-            <TabsTrigger value="ai-response">{t("aiResponse")}</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-5 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10">
+            <TabsTrigger value="app" className="hover:text-purple-500 transition-colors">{t("app")}</TabsTrigger>
+            <TabsTrigger value="about" className="hover:text-pink-500 transition-colors">{t("about")}</TabsTrigger>
+            <TabsTrigger value="help" className="hover:text-orange-500 transition-colors">{t("help")}</TabsTrigger>
+            <TabsTrigger value="legal" className="hover:text-purple-500 transition-colors">{t("legal")}</TabsTrigger>
+            <TabsTrigger value="ai-response" className="hover:text-pink-500 transition-colors">{t("aiResponse")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="app">

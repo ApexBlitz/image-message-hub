@@ -59,5 +59,13 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background: linear-gradient(102.3deg, rgba(147,39,143,0.1) 5.9%, rgba(234,172,232,0.1) 64%, rgba(246,219,245,0.1) 89%);
+  }
+}
+
+@layer utilities {
+  .title-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#9b87f5] via-[#D946EF] to-[#F97316] font-extrabold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   }
 }
