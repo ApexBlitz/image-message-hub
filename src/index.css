@@ -61,6 +61,10 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     background: linear-gradient(102.3deg, rgba(147,39,143,0.1) 5.9%, rgba(234,172,232,0.1) 64%, rgba(246,219,245,0.1) 89%);
   }
+
+  .card {
+    @apply bg-gradient-to-br from-white via-white/95 to-white/90 backdrop-blur-sm shadow-sm;
+  }
 }
 
 @layer utilities {
