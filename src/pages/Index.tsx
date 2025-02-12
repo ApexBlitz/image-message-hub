@@ -4,7 +4,8 @@ import { useToast } from "../components/ui/use-toast";
 import { generateResponse } from "../services/ollamaService";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { Button } from "../components/ui/button";
-import { Home } from "lucide-react";
+import { Home, User, Image } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import AppTab from "../components/tabs/AppTab";
 import AboutTab from "../components/tabs/AboutTab";
 import HelpTab from "../components/tabs/HelpTab";
@@ -27,6 +28,7 @@ interface HistoryEntry {
 }
 
 const Index = () => {
+  const navigate = useNavigate();
   const { t, currentLanguage, setCurrentLanguage } = useTranslation();
   const [activeTab, setActiveTab] = useState("app");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -108,6 +110,12 @@ const Index = () => {
           <div className="flex items-center gap-4">
             <Button variant="outline" size="icon" className="rounded-full hover:scale-105 transition-transform" onClick={handleHomeClick}>
               <Home className="h-5 w-5" />
+            </Button>
+            <Button variant="outline" size="icon" className="rounded-full hover:scale-105 transition-transform" onClick={() => navigate('/profile')}>
+              <User className="h-5 w-5" />
+            </Button>
+            <Button variant="outline" size="icon" className="rounded-full hover:scale-105 transition-transform" onClick={() => navigate('/gallery')}>
+              <Image className="h-5 w-5" />
             </Button>
             <LanguageSelect value={currentLanguage} onValueChange={setCurrentLanguage} />
             <ThemeToggle />
