@@ -1,9 +1,12 @@
+
 import ImageUpload from "../ImageUpload";
+import ImageSearch from "../ImageSearch";
 import MessageInput from "../MessageInput";
 import Preview from "../Preview";
 import ModelSelect from "../ModelSelect";
 import { Button } from "../ui/button";
 import { ScrollArea } from "../ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 interface HistoryEntry {
   message: string;
@@ -34,9 +37,31 @@ const AppTab = ({
   generatedText,
   history,
 }: AppTabProps) => {
+  const handleImageUrlSelect = (url: string) => {
+    // Convertir l'URL en File via un fetch
+    fetch(url)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], "image.jpg", { type: "image/jpeg" });
+        onImageSelect(file);
+      });
+  };
+
   return (
     <div className="max-w-2xl mx-auto space-y-8">
-      <ImageUpload onImageSelect={onImageSelect} />
+      <Tabs defaultValue="upload" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="upload">Téléverser une image</TabsTrigger>
+          <TabsTrigger value="search">Rechercher une image</TabsTrigger>
+        </TabsList>
+        <TabsContent value="upload">
+          <ImageUpload onImageSelect={onImageSelect} />
+        </TabsContent>
+        <TabsContent value="search">
+          <ImageSearch onImageSelect={handleImageUrlSelect} />
+        </TabsContent>
+      </Tabs>
+
       <ModelSelect onModelSelect={onModelSelect} />
       <MessageInput onMessageChange={onMessageChange} />
       <Button 
